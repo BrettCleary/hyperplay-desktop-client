@@ -40,5 +40,4 @@ vite-plugin-electron.log
 
 # Yarn Berry support
 # these can be reconfigured if we ever want to adopt yarn berry
-.yarnrc.yml 
 .yarn/
