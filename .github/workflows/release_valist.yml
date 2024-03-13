@@ -13,6 +13,8 @@ jobs:
   draft-releases:
     runs-on: ubuntu-latest
     steps:
+      - name: echo ref name.
+        run: echo "tag name ${{ github.ref_name }}"
       - name: Checkout repository.
         uses: actions/checkout@v3
         with:
