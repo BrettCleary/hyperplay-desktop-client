@@ -7,7 +7,7 @@ import { XMLParser, XMLBuilder } from 'fast-xml-parser'
 
 async function main() {
   console.log('tag name: ', process.env.RELEASE_VERSION)
-  const useTestRepo = false
+  const useTestRepo = true
   const repoOrgName = useTestRepo ? 'BrettCleary' : 'HyperPlay-Gaming'
   const repoName = repoOrgName + '/hyperplay-desktop-client'
 

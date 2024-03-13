@@ -6,7 +6,7 @@ import YAML from 'yaml'
 
 async function downloadAllReleaseAssets() {
   console.log('tag name: ', process.env.RELEASE_VERSION)
-  const useTestRepo = false
+  const useTestRepo = true
   const repoOrgName = useTestRepo ? 'BrettCleary' : 'HyperPlay-Gaming'
 
   // download all artifacts
