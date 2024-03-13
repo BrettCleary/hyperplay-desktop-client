@@ -41,7 +41,7 @@ function writeHpConfig(assets: any) {
   /* eslint-disable-next-line */
   const hpCliConfig: Record<string, any> = {
     account: 'hyperplaycd',
-    project: 'desktop',
+    project: 'DesktopTest',
     release: process.env.RELEASE_VERSION
   }
   const platforms = assets.map((asset) => {
