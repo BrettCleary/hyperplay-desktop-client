@@ -70,6 +70,51 @@ function writeHpConfig(assets: any) {
   return dest
 }
 
+async function spawnAsyncWithLiveOutput(dest: string) {
+  return new Promise((res, rej) => {
+    let scriptOutput = ''
+    const child = child_process.spawn(
+      `hyperplay publish --private-key=${process.env.VALIST_PUBLISH_KEY} --yml-path=${dest} --skip_hyperplay_publish --use-yml`,
+      { shell: true }
+    )
+
+    child.stdout.setEncoding('utf8')
+    child.stdout.on('data', function (data) {
+      //Here is where the output goes
+
+      console.log('stdout: ' + data)
+
+      data = data.toString()
+      scriptOutput += data
+    })
+
+    child.stderr.setEncoding('utf8')
+    child.stderr.on('data', function (data) {
+      //Here is where the error output goes
+
+      console.log('stderr: ' + data)
+
+      data = data.toString()
+      scriptOutput += data
+    })
+
+    child.on('error', function (err) {
+      console.log('Full output of script: ', scriptOutput)
+      rej(`Error during publish ${err}`)
+    })
+
+    child.on('close', function (code) {
+      console.log('closing code: ' + code)
+      console.log('Full output of script: ', scriptOutput)
+      if (code) {
+        rej(code)
+      } else {
+        res(code)
+      }
+    })
+  })
+}
+
 async function main() {
   const assets = await downloadAllReleaseAssets()
 
@@ -77,16 +122,17 @@ async function main() {
 
   // call hyperplay cli
   console.log('publishing to Valist')
-  const child = child_process.spawnSync(
-    `hyperplay publish --private-key=${process.env.VALIST_PUBLISH_KEY} --yml-path=${dest} --skip_hyperplay_publish --use-yml`,
-    { shell: true }
-  )
-  if (child.error) {
-    console.error(`ERROR: ${child.error}`)
-  }
-  console.log('stdout: ', child.stdout.toString())
-  console.log('stderr: ', child.stderr.toString())
-  console.log('exit code: ', child.status)
+  await spawnAsyncWithLiveOutput(dest)
+  // const child = child_process.spawnSync(
+  //   `hyperplay publish --private-key=${process.env.VALIST_PUBLISH_KEY} --yml-path=${dest} --skip_hyperplay_publish --use-yml`,
+  //   { shell: true }
+  // )
+  // if (child.error) {
+  //   console.error(`ERROR: ${child.error}`)
+  // }
+  // console.log('stdout: ', child.stdout.toString())
+  // console.log('stderr: ', child.stderr.toString())
+  // console.log('exit code: ', child.status)
 }
 
 main()
