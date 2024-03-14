@@ -8,7 +8,8 @@ import { isOnline } from './online_monitor'
 
 autoUpdater.autoDownload = false
 autoUpdater.autoInstallOnAppQuit = false
-const valistFeedUrl = 'https://developers.hyperplay.xyz/api/v1/client/updater'
+const valistFeedUrl =
+  'https://hyperplay-kbwtcbkkj-valist.vercel.app/api/v1/client/updater'
 const githubFeedUrl =
   'https://api.github.com/repos/HyperPlay-Gaming/hyperplay-desktop-client/releases'
 autoUpdater.setFeedURL(valistFeedUrl)
