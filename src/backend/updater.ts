@@ -23,7 +23,7 @@ export async function changeUpdaterFeedUrl(provider: 'valist' | 'github') {
     const latestReleaseInfo = await axios.get(
       'https://api.github.com/repos/HyperPlay-Gaming/hyperplay-desktop-client/releases/latest'
     )
-    feedUrl = `https://github.com/HyperPlay-Gaming/hyperplay-desktop-client/releases/download/${latestReleaseInfo.data.name}/latest.yml`
+    feedUrl = `https://github.com/HyperPlay-Gaming/hyperplay-desktop-client/releases/download/${latestReleaseInfo.data.name}`
   }
   autoUpdater.setFeedURL(feedUrl)
   logInfo(`Set feed url to ${feedUrl}`, LogPrefix.Backend)
