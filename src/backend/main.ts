@@ -378,7 +378,7 @@ const loadMainWindowURL = async function () {
       logError(
         `Error updating HyperPlay with Valist url ${err} \n Trying with Github...`
       )
-      changeUpdaterFeedUrl('github')
+      await changeUpdaterFeedUrl('github')
       try {
         await checkForUpdatesAndLog()
       } catch (err) {

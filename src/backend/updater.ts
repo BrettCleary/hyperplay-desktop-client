@@ -5,6 +5,7 @@ import { t } from 'i18next'
 import { icon } from './constants'
 import { logError, LogPrefix, logInfo } from './logger/logger'
 import { isOnline } from './online_monitor'
+import axios from 'axios'
 
 autoUpdater.autoDownload = false
 autoUpdater.autoInstallOnAppQuit = false
@@ -14,12 +15,18 @@ const githubFeedUrl =
   'https://api.github.com/repos/HyperPlay-Gaming/hyperplay-desktop-client/releases'
 autoUpdater.setFeedURL(valistFeedUrl)
 
-export function changeUpdaterFeedUrl(provider: 'valist' | 'github') {
+export async function changeUpdaterFeedUrl(provider: 'valist' | 'github') {
   let feedUrl = githubFeedUrl
   if (provider === 'valist') {
     feedUrl = valistFeedUrl
+  } else if (provider === 'github') {
+    const latestReleaseInfo = await axios.get(
+      'https://api.github.com/repos/HyperPlay-Gaming/hyperplay-desktop-client/releases/latest'
+    )
+    feedUrl = `https://github.com/HyperPlay-Gaming/hyperplay-desktop-client/releases/download/${latestReleaseInfo.data.name}/latest.yml`
   }
   autoUpdater.setFeedURL(feedUrl)
+  logInfo(`Set feed url to ${feedUrl}`, LogPrefix.Backend)
 }
 
 autoUpdater.on('update-available', async () => {
